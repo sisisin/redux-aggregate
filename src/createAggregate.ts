@@ -1,17 +1,34 @@
 import { Reducer } from 'redux'
+import { ActionType } from './types/commons'
 import { namespaced } from './namespaced'
-import { KeyMap } from '../typings/utils'
-import {
-  ActionTypes,
-  ReducerFactory,
-  ActionProvider,
-  Subscriptions
-} from '../typings/commons'
-import {
-  Mutations,
-  ActionCreators,
-  Aggregate
-} from '../typings/createAggregate'
+import { ActionProvider, ActionTypes, ReducerFactory, Subscriptions } from './types/commons'
+import { KeyMap, A1, A2 } from './types/utils'
+
+// ______________________________________________________
+
+type MT<T> = (state: A1<T>) => A1<T>
+type MTPL<T> = (state: A1<T>, payload: A2<T>) => A1<T>
+type Mutation<T> = MT<T> | MTPL<T>
+type Mutations<T> = { readonly [K in keyof T]: Mutation<T[K]> }
+
+type CR<T> = () => { type: ActionType }
+type CRPL<T> = (payload: A2<T>) => { type: ActionType; payload: A2<T> }
+type ActionCreator<T> = T extends MT<T> ? CR<T> : CRPL<T>
+type ActionCreators<T> = { readonly [K in keyof T]: ActionCreator<T[K]> }
+
+// ______________________________________________________
+
+interface Aggregate<T> {
+  readonly __namespace__: string
+  readonly __srcmap__: T
+  readonly types: ActionTypes<T>
+  readonly creators: ActionCreators<T>
+  readonly reducerFactory: ReducerFactory
+  subscribe: <T extends ActionProvider<T>, M extends Subscriptions<T, M>>(
+    provider: T,
+    subscriptions: M
+  ) => void
+}
 
 // ______________________________________________________
 
@@ -66,4 +83,4 @@ function createAggregate<T extends KeyMap & Mutations<T>>(
 
 type Modeler<T> = (injects?: Partial<T>) => T
 
-export { createAggregate, Modeler }
+export { Mutations, ActionCreators, Aggregate, createAggregate, Modeler }

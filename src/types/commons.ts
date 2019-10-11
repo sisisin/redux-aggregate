@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 import { KeyMap, R, A1, A2, DiffKey, HasKeysDiff } from './utils'
-import { Aggregate } from './createAggregate'
-import { Actions } from './createActions'
+import { Aggregate } from '../createAggregate'
+import { Actions } from '../createActions'
 
 type ActionType = string
 type ActionTypes<T> = { readonly [K in keyof T]: ActionType }

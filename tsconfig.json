@@ -3,17 +3,16 @@
     "baseUrl": "./",
     "module": "commonjs",
     "target": "es5",
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedParameters": true,
-    "removeComments": true,
-    "strictNullChecks": true,
+    "strict": true,
     "jsx": "react",
     "lib": [
       "es5",
       "dom",
       "es2015"
-    ]
+    ],
+    "declarationMap": true,
+    "declaration": true,
+    "outDir": "dist"
   },
   "include": [
     "./src/**/*"
