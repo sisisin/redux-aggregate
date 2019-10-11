@@ -1,2 +1,2 @@
-import { KeyMap } from '../typings/utils'
+import { KeyMap } from './types/utils'
 export const namespaced: KeyMap = {}

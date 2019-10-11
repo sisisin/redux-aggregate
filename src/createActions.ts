@@ -1,7 +1,25 @@
+import { ActionType, ActionTypes } from '../src/types/commons'
+import { A1, KeyMap, R } from '../src/types/utils'
 import { namespaced } from './namespaced'
-import { KeyMap } from '../typings/utils'
-import { ActionTypes } from '../typings/commons'
-import { ActionsSrc, ActionCreators, Actions } from '../typings/createActions'
+
+// ______________________________________________________
+
+type ACS<T> = () => R<T>
+type ACSPL<T> = (payload: A1<T>) => R<T>
+type ActionSrc<T> = ACS<T> | ACSPL<T>
+type ActionsSrc<T> = { readonly [K in keyof T]: ActionSrc<T[K]> }
+
+type CR<T> = () => { type: ActionType; payload: R<T> }
+type CRPL<T> = (payload: A1<T>) => { type: ActionType; payload: R<T> }
+type ActionCreator<T> = T extends ACS<T> ? CR<T> : CRPL<T>
+type ActionCreators<T> = { readonly [K in keyof T]: ActionCreator<T[K]> }
+
+interface Actions<T> {
+  readonly __namespace__: string
+  readonly __srcmap__: T
+  readonly types: ActionTypes<T>
+  readonly creators: ActionCreators<T>
+}
 
 // ______________________________________________________
 
@@ -39,4 +57,4 @@ function createActions<T extends KeyMap & ActionsSrc<T>>(
 
 // ______________________________________________________
 
-export { createActions }
+export { ActionsSrc, ActionCreators, Actions, createActions }

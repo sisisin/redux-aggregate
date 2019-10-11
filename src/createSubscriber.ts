@@ -1,11 +1,20 @@
 import { Reducer } from 'redux'
-import { KeyMap } from '../typings/utils'
+import { KeyMap } from './types/utils'
 import {
   ReducerFactory,
   ActionProvider,
   Subscriptions
-} from '../typings/commons'
-import { Subscriber } from '../typings/createSubscriber'
+} from './types/commons'
+
+// ______________________________________________________
+
+interface Subscriber {
+  readonly reducerFactory: ReducerFactory
+  subscribe: <T extends ActionProvider<T>, M extends Subscriptions<T, M>>(
+    provider: T,
+    subscriptions: M
+  ) => void
+}
 
 // ______________________________________________________
 
@@ -37,4 +46,4 @@ function createSubscriber(): Subscriber {
 
 type Modeler<T> = (injects?: Partial<T>) => T
 
-export { createSubscriber, Modeler }
+export { Subscriber, createSubscriber }
