@@ -22,16 +22,16 @@
   },
   "homepage": "https://github.com/takefumi-yoshii/redux-aggregate#readme",
   "dependencies": {
-    "redux": "4.0.1"
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "@types/jest": "^23.1.0",
-    "@types/node": "9.4.6",
+    "@types/node": "^9.4.6",
     "jest": "^23.1.0",
     "prettier": "^1.13.7",
     "ts-jest": "^22.4.6",
-    "ts-node": "5.0.0",
-    "typescript": ">=2.8.0",
+    "ts-node": "^5.0.0",
+    "typescript": "^3.6.2",
     "typescript-eslint-parser": "14.0.0"
   },
   "jest": {
