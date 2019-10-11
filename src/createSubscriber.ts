@@ -1,14 +1,10 @@
 import { Reducer } from 'redux'
 import { KeyMap } from './types/utils'
-import {
-  ReducerFactory,
-  ActionProvider,
-  Subscriptions
-} from './types/commons'
+import { ReducerFactory, ActionProvider, Subscriptions } from './types/commons'
 
 // ______________________________________________________
 
-interface Subscriber {
+export interface Subscriber {
   readonly reducerFactory: ReducerFactory
   subscribe: <T extends ActionProvider<T>, M extends Subscriptions<T, M>>(
     provider: T,
@@ -18,7 +14,7 @@ interface Subscriber {
 
 // ______________________________________________________
 
-function createSubscriber(): Subscriber {
+export function createSubscriber(): Subscriber {
   const __srcmap__: KeyMap = {}
   function reducerFactory<S>(initialState: S): Reducer<S> {
     return (state = initialState, action) => {
@@ -41,9 +37,3 @@ function createSubscriber(): Subscriber {
     subscribe
   }
 }
-
-// ______________________________________________________
-
-type Modeler<T> = (injects?: Partial<T>) => T
-
-export { Subscriber, createSubscriber }
